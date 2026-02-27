@@ -1,3 +1,7 @@
+/**
+ * DP > 정수 삼각형
+ */
+
 package exercise.algorithm.programmers.d20260226;
 
 import java.util.Arrays;
@@ -10,7 +14,6 @@ public class exam1 {
     }
 
     public static int solution(int[][] triangle) {
-        int answer = triangle[0][0];
         int length = triangle.length;
         int[][] dp = new int[length][length];
         dp[0][0] = triangle[0][0];

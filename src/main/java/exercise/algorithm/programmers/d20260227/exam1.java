@@ -1,3 +1,7 @@
+/**
+ * 완전탐색 > 최소직사각형
+ */
+
 package exercise.algorithm.programmers.d20260227;
 
 import java.util.*;
@@ -7,6 +11,7 @@ public class exam1 {
     public static void main(String[] args) {
         int[][] sizes = {{60, 50}, {30, 70}, {60, 30}, {80, 40}};
         System.out.println(solution(sizes));
+        System.out.println(solution2(sizes));
     }
 
     public static int solution(int[][] sizes) {
@@ -34,7 +39,7 @@ public class exam1 {
         }
 
         System.out.println("answerQueue = " + answerQueue);
-        return answerQueue.poll().intValue();
+        return Objects.requireNonNull(answerQueue.poll());
     }
 
     private static boolean validate(int w, int h, int[][] sizes) {
@@ -48,5 +53,21 @@ public class exam1 {
         }
 
         return true;
+    }
+
+    public static int solution2(int[][] sizes) {
+        int maxMax = 0;
+        int minMax = 0;
+        for(int[] size : sizes) {
+            if(size[0] < size[1]) {
+                minMax = Math.max(minMax, size[0]);
+                maxMax = Math.max(maxMax, size[1]);
+            } else {
+                minMax = Math.max(minMax, size[1]);
+                maxMax = Math.max(maxMax, size[0]);
+            }
+        }
+
+        return maxMax * minMax;
     }
 }
