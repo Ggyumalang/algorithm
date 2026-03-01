@@ -1,3 +1,7 @@
+/**
+ * 완전탐색 > 모의고사
+ */
+
 package exercise.algorithm.programmers.d20260228;
 
 import java.util.ArrayList;
