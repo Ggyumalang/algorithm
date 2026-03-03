@@ -22,37 +22,23 @@ public class exam01 {
         for (int i = 1; i <= 26; i++) {
             map.put(strArr[i-1], i);
         }
-        int forwardAnswer = getMinCnt(String.valueOf(name.charAt(0)));
-        int backwardAnswer = forwardAnswer;
 
-        for (int i = 1; i < name.length(); i++) {
+        int length = name.length();
+        int getStrMin = 0;
+        int getDirMin = name.length() - 1;
+        for (int i = 0; i < length; i++) {
             String str = String.valueOf(name.charAt(i));
-            forwardAnswer++;
-            if(str.equals("A") && i == name.length() - 1) {
-                forwardAnswer--;
-                continue;
+            getStrMin += getMinCnt(str);
+
+            int continueIdx = i + 1;
+            while (continueIdx < length && name.charAt(continueIdx) == 'A') {
+                continueIdx++;
             }
-            int minCnt = getMinCnt(str);
-            forwardAnswer += minCnt;
-            System.out.println("forwardAnswer = " + forwardAnswer);
+
+            getDirMin = Math.min(getDirMin, Math.min((i * 2) + length - continueIdx, (length - continueIdx) * 2 + i));
         }
 
-        for (int i = name.length() - 1; i >= 1 ; i--) {
-            String str = String.valueOf(name.charAt(i));
-            backwardAnswer++;
-            if(str.equals("A") && i == 1) {
-                backwardAnswer--;
-                continue;
-            }
-            int minCnt = getMinCnt(str);
-            backwardAnswer += minCnt;
-            System.out.println("backwardAnswer = " + backwardAnswer);
-        }
-
-        System.out.println("forwardAnswer = " + forwardAnswer);
-        System.out.println("backwardAnswer = " + backwardAnswer);
-
-        return Math.min(forwardAnswer, backwardAnswer);
+        return getStrMin + getDirMin;
     }
 
     private static int getMinCnt(String str) {
