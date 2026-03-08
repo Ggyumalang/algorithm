@@ -32,23 +32,31 @@ public class exam01 {
             return answer;
         }
 
-        for (int i = 0; i < grid.length; i++) {
-            for (int j = 1; j < grid[i].length; j++) {
-                if(grid[i][j] == 0){
-                       dfs(grid, i, j);
-                } else if (grid[i][j] <= 7) {
-                        dfs(grid, i, j);
-                }
-            }
-        }
+        //for (int i = 0; i < grid.length; i++) {
+        //    for (int j = 0; j < grid[i].length; j++) {
+        //        if(grid[i][j] == 0){
+        //               dfs(grid, i, j);
+        //        } else if (grid[i][j] <= 7) {
+        //                dfs(grid, i, j);
+        //        }
+        //    }
+        //}
+        dfs(grid, 0, 0);
         return answer;
     }
 
     private static void dfs(int[][] grid, int row, int col) {
 
-        for (int i = 1; i <= 7; i++) {
 
-        }
 
     }
+    //
+    //private static int[] getNext(int val, int row, int col) {
+    //    switch (val) {
+    //        case 1:
+    //            if (row == col) {
+    //
+    //            }
+    //    }
+    //}
 }
