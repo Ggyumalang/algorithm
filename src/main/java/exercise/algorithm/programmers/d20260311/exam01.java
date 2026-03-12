@@ -4,6 +4,8 @@
 
 package exercise.algorithm.programmers.d20260311;
 
+import java.util.*;
+
 public class exam01 {
     public static void main(String[] args) {
         String message = "here is muzi here is a secret message";
@@ -11,22 +13,95 @@ public class exam01 {
         System.out.println(solution(message, spoiler_ragnes));
 
         message = "my phone number is 01012345678 and may i have your phone number";
-        spoiler_ragnes = new int[][]{{5, 5}, {25, 28}, {34, 40}, {53, 59}};
+        spoiler_ragnes = new int[][]{{5, 5}, {25, 28}, {34, 40}, {57, 63}};
+        System.out.println(solution(message, spoiler_ragnes));
+
+        message = "here is muzi here is a secret message";
+        spoiler_ragnes = new int[][]{{2,5}, {26,29}};
+        System.out.println(solution(message, spoiler_ragnes));
+
+        message = "here";
+        spoiler_ragnes = new int[][]{{3,4}, {26,29}};
         System.out.println(solution(message, spoiler_ragnes));
     }
 
     public static int solution(String message, int[][] spoiler_ranges) {
-        int answer = 0;
-        //SET 2개를 만든다 - 하나는 일반, 하나는 중요
-        //만약 일반에 이미 있는 거라면 중요 단어가 아니게 된다.
-        //중요 단어는 이전에 공개된 스포 방지 단어와 중복되지 않아야 한다.
-        //여러 단어가 동시에 공개 시 왼쪽부터 순서대로 하나씩 중요 단어가 된다.
-        //해당 위치에 포함되는 단어들을 어떻게 표현할 수 있을 지가 문제다..
-        for (int i = 0; i < message.length(); i++) {
-//            String
+        if(message.isEmpty() || message.trim().isEmpty() || spoiler_ranges.length == 0) {
+            return 0;
+        }
+
+        List<String> messages = new ArrayList<>(List.of(message.split(" ")));
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        int idx = 0;
+        for (int i = 0; i < messages.size(); i++) {
+            int start = idx;
+            idx = start + messages.get(i).length() - 1;
+            map.put(i, List.of(start, idx));
+            idx+=2;
+        }
+        System.out.println("map = " + map);
+        Set<String> answerSet = new HashSet<>();
+
+        for (int[] spoiler_range : spoiler_ranges) {
+            int startIdx = spoiler_range[0];
+            int endIdx = spoiler_range[1];
+            for(Map.Entry<Integer, List<Integer>> entry : map.entrySet()) {
+                // start 포함  rangeStart <= start <= rangeEnd
+                if(entry.getValue().get(0) <= startIdx && startIdx <= entry.getValue().get(1) ) {
+                    if(!messages.get(entry.getKey()).isEmpty()) {
+                        answerSet.add(messages.get(entry.getKey()));
+                        messages.set(entry.getKey(), "");
+                    }
+                    continue;
+                }
+
+                // end 포함 rangeStart <= end <= rangeEnd
+                if(entry.getValue().get(0) <= endIdx && entry.getValue().get(1) >= endIdx) {
+                    if(!messages.get(entry.getKey()).isEmpty()) {
+                        answerSet.add(messages.get(entry.getKey()));
+                        messages.set(entry.getKey(), "");
+                    }
+                    continue;
+                }
+
+                // 사이값 포함 start <= range <= endIdx
+                if(startIdx <= entry.getValue().get(0) && entry.getValue().get(1) <= endIdx) {
+                    if(!messages.get(entry.getKey()).isEmpty()) {
+                        answerSet.add(messages.get(entry.getKey()));
+                        messages.set(entry.getKey(), "");
+                    }
+                    continue;
+                }
+
+                // 사이값 포함 start <= range <= endIdx
+                if(startIdx <= entry.getValue().get(0) && entry.getValue().get(0) <= endIdx) {
+                    if(!messages.get(entry.getKey()).isEmpty()) {
+                        answerSet.add(messages.get(entry.getKey()));
+                        messages.set(entry.getKey(), "");
+                    }
+                    continue;
+                }
+
+                // 사이값 포함 start <= range <= endIdx
+                if(startIdx <= entry.getValue().get(1) && entry.getValue().get(1) <= endIdx) {
+                    if(!messages.get(entry.getKey()).isEmpty()) {
+                        answerSet.add(messages.get(entry.getKey()));
+                        messages.set(entry.getKey(), "");
+                    }
+                }
+            }
+        }
+        System.out.println(answerSet);
+        System.out.println(messages);
+
+        for (String s: messages) {
+            if (answerSet.contains(s)) {
+                System.out.println("s = " + s);
+                answerSet.remove(s);
+            }
         }
 
 
-        return answer;
+        return answerSet.size();
     }
 }
