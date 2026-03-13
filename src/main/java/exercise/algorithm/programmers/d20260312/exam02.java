@@ -7,6 +7,7 @@ package exercise.algorithm.programmers.d20260312;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 public class exam02 {
@@ -17,80 +18,51 @@ public class exam02 {
         System.out.println(solution(n, bans));
     }
 
-    //static long N;
-    //static String[] ARR = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"};
-    //static String[] BANS;
-    //static String answer;
     public static String solution(long n, String[] bans) {
-        //N = n;
-        String answer = "";
-        List<Long> list = new ArrayList<>();
-        for (int i = 0; i < 11; i++) {
-            list.add((long) Math.pow(26, i+1));
-        }
+        // 금지어 정렬
+        Arrays.sort(bans, (o1, o2) -> {
+            if(o1.length() == o2.length()){
+                return o1.compareTo(o2);
+            }
+            return o1.length() - o2.length();
+        });
 
-        for (int i = 0; i < bans.length; i++) {
-            switch (bans[i].length()) {
-                case 1:
-                    list.set(0,list.get(0)-1);
-                    break;
-                case 2:
-                    list.set(1,list.get(1)-1);
-                    break;
-                case 3:
-                    list.set(2,list.get(2)-1);
-                    break;
-                case 4:
-                    list.set(3,list.get(3)-1);
-                    break;
-                case 5:
-                    list.set(4,list.get(4)-1);
-                    break;
-                case 6:
-                    list.set(5,list.get(5)-1);
-                    break;
-                case 7:
-                    list.set(6,list.get(6)-1);
-                    break;
-                case 8:
-                    list.set(7,list.get(7)-1);
-                    break;
-                case 9:
-                    list.set(8,list.get(8)-1);
-                    break;
-                case 10:
-                    list.set(9,list.get(9)-1);
-                    break;
-                case 11:
-                    list.set(10,list.get(10)-1);
-                    break;
+        System.out.println("bans = " + Arrays.toString(bans));
+        for (String ban : bans) {
+            if (stringToNumber(ban) <= n) {
+                n++;
             }
         }
 
-        System.out.println("arr = " + list);
-        int startIdx = 0;
-
-        for (int i = 0; i < list.size(); i++) {
-            if(list.get(i) > n) {
-                if(i != 0) {
-                    startIdx = i - 1;
-                }
-                break;
-            } else if (list.get(i) == n) {
-                startIdx = i;
-                break;
-            }
+        for (int i = 0; i < 26; i++) {
+            System.out.println("'a' + i = " + (char) ('a' + i));
         }
 
-        System.out.println("startIdx = " + startIdx);
+        return numberToString(n);
+    }
 
-        StringBuilder str = new StringBuilder();
-        str.append("a".repeat(startIdx + 1));
-
-        for (int i = startIdx + 1; i <= n ; i++) {
-
+    public static long stringToNumber(String s) {
+        long num = 0;
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            // number = number * 26 + val Horner's method - 이전 결과값에 진법을 계속 곱하며 자릿수를 밀어 올리는 방식
+            num = num * 26 + (c - 'a' + 1);
         }
 
-        return answer;
+        return num;
+    }
+
+    public static String numberToString(long num) {
+        StringBuilder sb = new StringBuilder();
+        while (num > 0) {
+            num--; // 1부터 시작하는 체계를 0부터 시작하도록 1 빼줌
+            long rem = num % 26; // 0 ~ 25의 값이 나옴
+
+            sb.insert(0, (char) ('a' + rem));
+
+            num = num / 26;
+        }
+
+        return sb.toString();
     }
 }
