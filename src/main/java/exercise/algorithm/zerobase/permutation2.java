@@ -12,7 +12,7 @@ public class permutation2 {
         int r = 3;
         int[] arr = {1,2,3,4};
         boolean[] visited = new boolean[n];
-        int[] out = new int[n];
+        int[] out = new int[r];
         per(arr,0,n,r,visited,out);
     }
 
