@@ -1,7 +1,9 @@
+/**
+ * 광물 캐기
+ */
 package exercise.algorithm.programmers.d20260326;
 
 import lombok.ToString;
-import org.jspecify.annotations.NonNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -64,14 +66,14 @@ public class exam02 {
             Placement p = pq.poll();
             int pos = p.pos;
             int maxPos = Math.min(pos + 5, minerals.length);
-            if(diaPick > 0) {
+            if (diaPick > 0) {
                 answer += maxPos - pos;
                 diaPick--;
-            } else if(ironPick > 0) {
-                answer += calcFatigue("iron",  minerals, pos, maxPos);
+            } else if (ironPick > 0) {
+                answer += calcFatigue("iron", minerals, pos, maxPos);
                 ironPick--;
-            } else if(stonePick > 0) {
-                answer += calcFatigue("stone",  minerals, pos, maxPos);
+            } else if (stonePick > 0) {
+                answer += calcFatigue("stone", minerals, pos, maxPos);
                 stonePick--;
             } else {
                 // 모두 떨어진 것
@@ -85,21 +87,21 @@ public class exam02 {
         List<Integer> dividedList = new ArrayList<>();
         int sum = 0;
         for (int i = 0; i < maxPick; i++) {
-            if(i > 0 && i % 5 == 0) {
+            if (i > 0 && i % 5 == 0) {
                 dividedList.add(sum);
                 sum = 0;
             }
 
-            if(minerals[i].equals("diamond")) {
+            if (minerals[i].equals("diamond")) {
                 sum += 25;
-            } else if(minerals[i].equals("iron")) {
+            } else if (minerals[i].equals("iron")) {
                 sum += 5;
             } else {
                 sum += 1;
             }
         }
 
-        if(sum != 0) {
+        if (sum != 0) {
             dividedList.add(sum);
         }
         return dividedList;
@@ -109,16 +111,16 @@ public class exam02 {
 
         int result = 0;
         for (int i = pos; i < maxPos; i++) {
-            if(pick.equals("iron")) {
-                if(minerals[i].equals("diamond")) {
+            if (pick.equals("iron")) {
+                if (minerals[i].equals("diamond")) {
                     result += 5;
                 } else {
                     result += 1;
                 }
-            } else if(pick.equals("stone")) {
-                if(minerals[i].equals("diamond")) {
+            } else if (pick.equals("stone")) {
+                if (minerals[i].equals("diamond")) {
                     result += 25;
-                } else if(minerals[i].equals("iron")) {
+                } else if (minerals[i].equals("iron")) {
                     result += 5;
                 } else {
                     result += 1;
