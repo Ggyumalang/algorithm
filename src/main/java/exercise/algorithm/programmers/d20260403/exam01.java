@@ -1,3 +1,6 @@
+/**
+ * 과제 진행하기
+ */
 package exercise.algorithm.programmers.d20260403;
 
 import lombok.ToString;
