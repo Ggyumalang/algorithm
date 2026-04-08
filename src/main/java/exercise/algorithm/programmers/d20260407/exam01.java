@@ -14,20 +14,20 @@ public class exam01 {
 
     static int MOD = 1000000007;
     public static int solution(int n, int[] money) {
-        int answer = 0;
         Arrays.sort(money);
+        // dp[i] 를 i 원을 거슬러 줄 수 있는 경우의 수
         int[] dp = new int[n + 1];
-        Arrays.fill(dp, 1);
-
-        for (int i = 0; i < money.length; i++) {
-            int num = money[i];
-            for (int j = n; j >= num; j--) {
-                dp[j] = (dp[j] + dp[j - num]) % MOD;
+        dp[0] = 1;
+        for (int k : money) {
+            for (int j = 1; j <= n; j++) {
+                if (j >= k) {
+                    dp[j] = (dp[j] + dp[j - k]) % MOD;
+                }
             }
             System.out.println("dp = " + Arrays.toString(dp));
         }
 
 
-        return answer;
+        return dp[n];
     }
 }
