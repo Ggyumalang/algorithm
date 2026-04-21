@@ -46,66 +46,51 @@ public class exam01 {
     }
 
     public static String solution(String m, String[] musicinfos) {
-        PriorityQueue<Music> pq = new PriorityQueue<>();
-        int idx = 0;
         m = makePlatToSmall(m);
-        System.out.println("m = " + m);
+
+        String answerTitle = "(None)";
+        int maxTime = -1; // 최대 재생 시간을 기록할 변수
+
         for (String musicinfo : musicinfos) {
             String[] split = musicinfo.split(",");
             int time = calcTime(split[0], split[1]);
             String title = split[2];
             String melody = makePlatToSmall(split[3]);
-            StringBuilder sb = new StringBuilder();
 
+            StringBuilder sb = new StringBuilder();
             for (int i = 0; i < time; i++) {
-                // 각 멜로디 조립 TIME 만큼..
                 sb.append(melody.charAt(i % melody.length()));
             }
 
-            // 포함되는 지 여부 확인하기
+            // 조건: 멜로디가 일치하고, 기존의 정답 곡보다 재생 시간이 더 '길' 때만 갱신
+            // (time이 같을 때는 먼저 입력된 곡이 우선이므로 갱신하지 않음)
             if (sb.toString().contains(m)) {
-                pq.add(new Music(idx++, title, sb.toString(), time));
+                if (time > maxTime) {
+                    maxTime = time;
+                    answerTitle = title;
+                }
             }
         }
-
-        if(pq.isEmpty()) {
-            return "(None)";
-        }
-
-        return pq.peek().title;
+        return answerTitle;
     }
 
     private static String makePlatToSmall(String m) {
-        StringBuilder sb = new StringBuilder();
-        char formerC = '#';
-        for (int i = 0; i < m.length(); i++) {
-            char c = m.charAt(i);
-            if(c == '#') {
-                sb.replace(sb.length() - 1, sb.length(), Character.toLowerCase(formerC) + "");
-            } else {
-                sb.append(c);
-                formerC = c;
-            }
-        }
-        return sb.toString();
+            return m.replace("C#", "c")
+                    .replace("D#", "d")
+                    .replace("F#", "f")
+                    .replace("G#", "g")
+                    .replace("A#", "a")
+                    .replace("B#", "b") // 방어적 코드
+                    .replace("E#", "e"); // 방어적 코드
     }
 
     private static int calcTime(String startTime, String endTime) {
-        String startHour = startTime.split(":")[0];
-        String startMin = startTime.split(":")[1];
-        String endHour = endTime.split(":")[0];
-        String endMin = endTime.split(":")[1];
+        String[] start = startTime.split(":");
+        String[] end = endTime.split(":");
 
-        int min = Integer.parseInt(endMin) - Integer.parseInt(startMin);
-        if(endHour.equals(startHour)) {
-            return min;
-        }
+        int startTotalMin = Integer.parseInt(start[0]) * 60 + Integer.parseInt(start[1]);
+        int endTotalMin = Integer.parseInt(end[0]) * 60 + Integer.parseInt(end[1]);
 
-        int hhDiff = (Integer.parseInt(endHour) - Integer.parseInt(startHour)) * 60;
-        if(min < 0) {
-            return hhDiff - min;
-        }
-
-        return hhDiff + min;
+        return endTotalMin - startTotalMin;
     }
 }
