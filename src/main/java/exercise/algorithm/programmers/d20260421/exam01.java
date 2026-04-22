@@ -3,10 +3,6 @@
  */
 package exercise.algorithm.programmers.d20260421;
 
-import lombok.ToString;
-
-import java.util.PriorityQueue;
-
 public class exam01 {
     public static void main(String[] args) {
         String m = "ABCDEFG";
@@ -20,29 +16,6 @@ public class exam01 {
         m = "ABC";
         musicinfos = new String[]{"12:00,12:14,HELLO,C#DEFGAB", "13:00,13:05,WORLD,ABCDEF"};
         System.out.println(solution(m, musicinfos));
-    }
-
-    @ToString
-    public static class Music implements Comparable<Music>{
-        int idx; // 노래 순서
-        String title; // 노래 제목
-        String melody; // 만든 멜로디
-        int time; // 재생된 시간
-
-        public Music(int idx, String title, String melody, int time) {
-            this.idx = idx;
-            this.title = title;
-            this.melody = melody;
-            this.time = time;
-        }
-
-        @Override
-        public int compareTo(Music o) {
-            if(this.time == o.time) {
-                return this.idx - o.idx;
-            }
-            return o.time - this.time;
-        }
     }
 
     public static String solution(String m, String[] musicinfos) {
@@ -75,13 +48,13 @@ public class exam01 {
     }
 
     private static String makePlatToSmall(String m) {
-            return m.replace("C#", "c")
-                    .replace("D#", "d")
-                    .replace("F#", "f")
-                    .replace("G#", "g")
-                    .replace("A#", "a")
-                    .replace("B#", "b") // 방어적 코드
-                    .replace("E#", "e"); // 방어적 코드
+        return m.replace("C#", "c")
+                .replace("D#", "d")
+                .replace("F#", "f")
+                .replace("G#", "g")
+                .replace("A#", "a")
+                .replace("B#", "b") // 방어적 코드
+                .replace("E#", "e"); // 방어적 코드
     }
 
     private static int calcTime(String startTime, String endTime) {
