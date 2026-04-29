@@ -1,3 +1,7 @@
+/**
+ * 문자열 압축
+ */
+
 package exercise.algorithm.programmers.d20260429;
 
 public class exam01 {
